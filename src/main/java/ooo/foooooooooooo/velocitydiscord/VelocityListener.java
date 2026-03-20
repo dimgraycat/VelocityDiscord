@@ -8,6 +8,8 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import ooo.foooooooooooo.velocitydiscord.discord.Discord;
 
 import java.util.HashMap;
@@ -46,6 +48,7 @@ public class VelocityListener {
 
     var prefix = getPrefix(uuid);
 
+    forwardPlayerChatToServers(username, prefix, server, event.getMessage());
     this.discord.onPlayerChat(username, uuid.toString(), prefix, server, event.getMessage());
   }
 
@@ -140,6 +143,47 @@ public class VelocityListener {
     }
 
     return Optional.empty();
+  }
+
+  /**
+   * Forward only real player chat to other backend audiences.
+   * Proxy-delivered messages do not re-enter PlayerChatEvent, so this stays one-way.
+   */
+  private void forwardPlayerChatToServers(String username, Optional<String> prefix, String sourceServer, String message) {
+    var formattedMessage = createPlayerBridgeMessage(username, prefix, sourceServer, message);
+
+    for (var targetServer : VelocityDiscord.SERVER.getAllServers()) {
+      var targetName = targetServer.getServerInfo().getName();
+
+      if (targetName.equals(sourceServer)) {
+        continue;
+      }
+
+      if (!VelocityDiscord.CONFIG.global.excludedServersReceiveMessages &&
+          VelocityDiscord.CONFIG.serverDisabled(targetName)) {
+        continue;
+      }
+
+      targetServer.sendMessage(formattedMessage);
+    }
+  }
+
+  private Component createPlayerBridgeMessage(String username, Optional<String> prefix, String sourceServer, String message) {
+    var component = Component
+      .text()
+      .append(Component.text("[", NamedTextColor.DARK_GRAY))
+      .append(Component.text(VelocityDiscord.CONFIG.serverName(sourceServer), NamedTextColor.GRAY))
+      .append(Component.text("] ", NamedTextColor.DARK_GRAY));
+
+    prefix
+      .filter(p -> !p.isBlank())
+      .ifPresent(p -> component.append(Component.text(p + " ", NamedTextColor.WHITE)));
+
+    return component
+      .append(Component.text(username, NamedTextColor.WHITE))
+      .append(Component.text(": ", NamedTextColor.DARK_GRAY))
+      .append(Component.text(message, NamedTextColor.WHITE))
+      .build();
   }
 
   /**
