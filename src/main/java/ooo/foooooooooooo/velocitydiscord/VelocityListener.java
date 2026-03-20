@@ -48,7 +48,7 @@ public class VelocityListener {
 
     var prefix = getPrefix(uuid);
 
-    forwardPlayerChatToServers(username, prefix, server, event.getMessage());
+    forwardPlayerChatToServers(username, server, event.getMessage());
     this.discord.onPlayerChat(username, uuid.toString(), prefix, server, event.getMessage());
   }
 
@@ -149,8 +149,8 @@ public class VelocityListener {
    * Forward only real player chat to other backend audiences.
    * Proxy-delivered messages do not re-enter PlayerChatEvent, so this stays one-way.
    */
-  private void forwardPlayerChatToServers(String username, Optional<String> prefix, String sourceServer, String message) {
-    var formattedMessage = createPlayerBridgeMessage(username, prefix, sourceServer, message);
+  private void forwardPlayerChatToServers(String username, String sourceServer, String message) {
+    var formattedMessage = createPlayerBridgeMessage(username, sourceServer, message);
 
     for (var targetServer : VelocityDiscord.SERVER.getAllServers()) {
       var targetName = targetServer.getServerInfo().getName();
@@ -164,24 +164,24 @@ public class VelocityListener {
         continue;
       }
 
+      if (!VelocityDiscord.CONFIG.getServerConfig(targetName).getMinecraftConfig().receivePlayerChatFromOtherServers) {
+        continue;
+      }
+
       targetServer.sendMessage(formattedMessage);
     }
   }
 
-  private Component createPlayerBridgeMessage(String username, Optional<String> prefix, String sourceServer, String message) {
-    var component = Component
+  private Component createPlayerBridgeMessage(String username, String sourceServer, String message) {
+    return Component
       .text()
       .append(Component.text("[", NamedTextColor.DARK_GRAY))
       .append(Component.text(VelocityDiscord.CONFIG.serverName(sourceServer), NamedTextColor.GRAY))
-      .append(Component.text("] ", NamedTextColor.DARK_GRAY));
-
-    prefix
-      .filter(p -> !p.isBlank())
-      .ifPresent(p -> component.append(Component.text(p + " ", NamedTextColor.WHITE)));
-
-    return component
+      .append(Component.text("] ", NamedTextColor.DARK_GRAY))
+      .append(Component.text("<", NamedTextColor.WHITE))
       .append(Component.text(username, NamedTextColor.WHITE))
-      .append(Component.text(": ", NamedTextColor.DARK_GRAY))
+      .append(Component.text(">", NamedTextColor.WHITE))
+      .append(Component.text(" ", NamedTextColor.WHITE))
       .append(Component.text(message, NamedTextColor.WHITE))
       .build();
   }

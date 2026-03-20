@@ -266,6 +266,10 @@ attachments = "<dark_gray><click:open_url:{url}>[<{attachment_color}>Attachment<
 # Can be disabled with "" or false
 links = "<click:open_url:\"{url}\"><hover:show_text:\"Click to open {url}\"><dark_gray>[</dark_gray><{link_color}>Link<dark_gray>]</hover></click>"
 
+# Whether this backend server should receive player chat forwarded from other Velocity servers
+# Server overridable
+receive_player_chat_from_other_servers = true
+
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#7289da"
 attachment_color = "#4abdff"

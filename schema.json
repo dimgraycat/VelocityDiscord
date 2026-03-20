@@ -489,6 +489,11 @@
           "type": ["string", "boolean"],
           "disableable": true
         },
+        "receive_player_chat_from_other_servers": {
+          "description": "Whether this backend server should receive player chat forwarded from other Velocity servers",
+          "type": "boolean",
+          "default": true
+        },
         "discord_color": {
           "description": "Color for Discord tag in MiniMessage format",
           "type": "string"

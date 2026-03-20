@@ -315,3 +315,6 @@ channel = "0000000000000000000"
 
 [override.server_b.discord.chat.death]
 # channel = "0000000000000000000"
+
+[override.server_b.minecraft]
+receive_player_chat_from_other_servers = false

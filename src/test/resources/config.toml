@@ -291,6 +291,9 @@ attachments = "attachments_test"
 # Can be disabled with "" or false
 links = "links_test"
 
+# Whether this backend server should receive player chat forwarded from other Velocity servers
+receive_player_chat_from_other_servers = false
+
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#ff00ff"
 attachment_color = "#ff00ff"
