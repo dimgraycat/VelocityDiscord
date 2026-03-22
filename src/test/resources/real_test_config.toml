@@ -318,3 +318,5 @@ channel = "0000000000000000000"
 
 [override.server_b.minecraft]
 receive_player_chat_from_other_servers = false
+receive_player_join_from_other_servers = true
+receive_player_leave_from_other_servers = true

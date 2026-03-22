@@ -270,6 +270,14 @@ links = "<click:open_url:\"{url}\"><hover:show_text:\"Click to open {url}\"><dar
 # Server overridable
 receive_player_chat_from_other_servers = true
 
+# Whether this backend server should receive login messages forwarded from other Velocity servers
+# Server overridable
+receive_player_join_from_other_servers = false
+
+# Whether this backend server should receive logout messages forwarded from other Velocity servers
+# Server overridable
+receive_player_leave_from_other_servers = false
+
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#7289da"
 attachment_color = "#4abdff"

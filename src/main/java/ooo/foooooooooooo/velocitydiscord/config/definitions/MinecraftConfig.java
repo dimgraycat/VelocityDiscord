@@ -29,6 +29,8 @@ public class MinecraftConfig {
     <click:open_url:"{url}"><hover:show_text:"Click to open {url}"><dark_gray>[</dark_gray><{link_color}>Link<dark_gray>]</hover></click>""");
 
   public boolean receivePlayerChatFromOtherServers = true;
+  public boolean receivePlayerJoinFromOtherServers = false;
+  public boolean receivePlayerLeaveFromOtherServers = false;
 
   public String discordColor = "#7289da";
   public String attachmentColor = "#4abdff";
@@ -46,6 +48,10 @@ public class MinecraftConfig {
     this.linkFormat = config.getDisableableStringOrDefault("links", this.linkFormat);
     this.receivePlayerChatFromOtherServers =
       config.getOrDefault("receive_player_chat_from_other_servers", this.receivePlayerChatFromOtherServers);
+    this.receivePlayerJoinFromOtherServers =
+      config.getOrDefault("receive_player_join_from_other_servers", this.receivePlayerJoinFromOtherServers);
+    this.receivePlayerLeaveFromOtherServers =
+      config.getOrDefault("receive_player_leave_from_other_servers", this.receivePlayerLeaveFromOtherServers);
 
     this.discordColor = config.getOrDefault("discord_color", this.discordColor);
     this.attachmentColor = config.getOrDefault("attachment_color", this.attachmentColor);

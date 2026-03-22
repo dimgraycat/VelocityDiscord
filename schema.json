@@ -494,6 +494,16 @@
           "type": "boolean",
           "default": true
         },
+        "receive_player_join_from_other_servers": {
+          "description": "Whether this backend server should receive login messages forwarded from other Velocity servers",
+          "type": "boolean",
+          "default": false
+        },
+        "receive_player_leave_from_other_servers": {
+          "description": "Whether this backend server should receive logout messages forwarded from other Velocity servers",
+          "type": "boolean",
+          "default": false
+        },
         "discord_color": {
           "description": "Color for Discord tag in MiniMessage format",
           "type": "string"

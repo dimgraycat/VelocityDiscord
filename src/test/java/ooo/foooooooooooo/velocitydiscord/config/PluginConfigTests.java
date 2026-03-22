@@ -93,6 +93,8 @@ public class PluginConfigTests {
     assertEquals("attachments_test", minecraft.attachmentFormat);
     assertEquals(Optional.of("links_test"), minecraft.linkFormat);
     assertFalse(minecraft.receivePlayerChatFromOtherServers);
+    assertTrue(minecraft.receivePlayerJoinFromOtherServers);
+    assertTrue(minecraft.receivePlayerLeaveFromOtherServers);
     assertEquals("#ff00ff", minecraft.discordColor);
     assertEquals("#ff00ff", minecraft.attachmentColor);
     assertEquals("#ff00ff", minecraft.linkColor);
@@ -121,5 +123,9 @@ public class PluginConfigTests {
     assertEquals("Server B", pluginConfig.global.serverDisplayNames.get("server_b"));
     assertTrue(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerChatFromOtherServers);
     assertFalse(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerChatFromOtherServers);
+    assertFalse(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerJoinFromOtherServers);
+    assertTrue(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerJoinFromOtherServers);
+    assertFalse(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerLeaveFromOtherServers);
+    assertTrue(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerLeaveFromOtherServers);
   }
 }
