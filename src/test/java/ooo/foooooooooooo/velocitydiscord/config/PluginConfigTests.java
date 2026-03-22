@@ -92,9 +92,13 @@ public class PluginConfigTests {
     assertEquals("message_test", minecraft.messageFormat);
     assertEquals("attachments_test", minecraft.attachmentFormat);
     assertEquals(Optional.of("links_test"), minecraft.linkFormat);
+    assertEquals(Optional.of("player_join_test"), minecraft.playerJoinFormat);
+    assertEquals(Optional.of("player_leave_test"), minecraft.playerLeaveFormat);
+    assertEquals(Optional.of("player_server_switch_test"), minecraft.playerServerSwitchFormat);
     assertFalse(minecraft.receivePlayerChatFromOtherServers);
-    assertTrue(minecraft.receivePlayerJoinFromOtherServers);
-    assertTrue(minecraft.receivePlayerLeaveFromOtherServers);
+    assertFalse(minecraft.receivePlayerJoinFromOtherServers);
+    assertFalse(minecraft.receivePlayerLeaveFromOtherServers);
+    assertFalse(minecraft.receivePlayerServerSwitchFromOtherServers);
     assertEquals("#ff00ff", minecraft.discordColor);
     assertEquals("#ff00ff", minecraft.attachmentColor);
     assertEquals("#ff00ff", minecraft.linkColor);
@@ -123,9 +127,20 @@ public class PluginConfigTests {
     assertEquals("Server B", pluginConfig.global.serverDisplayNames.get("server_b"));
     assertTrue(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerChatFromOtherServers);
     assertFalse(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerChatFromOtherServers);
-    assertFalse(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerJoinFromOtherServers);
-    assertTrue(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerJoinFromOtherServers);
-    assertFalse(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerLeaveFromOtherServers);
-    assertTrue(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerLeaveFromOtherServers);
+    assertTrue(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerJoinFromOtherServers);
+    assertFalse(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerJoinFromOtherServers);
+    assertTrue(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerLeaveFromOtherServers);
+    assertFalse(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerLeaveFromOtherServers);
+    assertTrue(pluginConfig.getServerConfig("server_a").getMinecraftConfig().receivePlayerServerSwitchFromOtherServers);
+    assertFalse(pluginConfig.getServerConfig("server_b").getMinecraftConfig().receivePlayerServerSwitchFromOtherServers);
+    assertEquals(Optional.of("<green>{username}</green>"), pluginConfig.getServerConfig("server_a").getMinecraftConfig().playerJoinFormat);
+    assertEquals(Optional.empty(), pluginConfig.getServerConfig("server_b").getMinecraftConfig().playerJoinFormat);
+    assertEquals(Optional.of("<red>{username}</red>"), pluginConfig.getServerConfig("server_a").getMinecraftConfig().playerLeaveFormat);
+    assertEquals(Optional.empty(), pluginConfig.getServerConfig("server_b").getMinecraftConfig().playerLeaveFormat);
+    assertEquals(
+      Optional.of("<yellow>{username} {previous_server} -> {server}</yellow>"),
+      pluginConfig.getServerConfig("server_a").getMinecraftConfig().playerServerSwitchFormat
+    );
+    assertEquals(Optional.empty(), pluginConfig.getServerConfig("server_b").getMinecraftConfig().playerServerSwitchFormat);
   }
 }

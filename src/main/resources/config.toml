@@ -266,17 +266,33 @@ attachments = "<dark_gray><click:open_url:{url}>[<{attachment_color}>Attachment<
 # Can be disabled with "" or false
 links = "<click:open_url:\"{url}\"><hover:show_text:\"Click to open {url}\"><dark_gray>[</dark_gray><{link_color}>Link<dark_gray>]</hover></click>"
 
+# Placeholders available: {server}, {current_server}, {username}
+# Can be disabled with "" or false
+player_join = "<dark_gray>[<gray>{server}</gray>]<reset> <white>{username}</white><green> joined</green>"
+
+# Placeholders available: {server}, {current_server}, {username}
+# Can be disabled with "" or false
+player_leave = "<dark_gray>[<gray>{server}</gray>]<reset> <white>{username}</white><red> left</red>"
+
+# Placeholders available: {server}, {current_server}, {previous_server}, {username}
+# Can be disabled with "" or false
+player_server_switch = "<dark_gray>[<gray>{server}</gray>]<reset> <white>{username}</white><yellow> moved from {previous_server}</yellow>"
+
 # Whether this backend server should receive player chat forwarded from other Velocity servers
 # Server overridable
 receive_player_chat_from_other_servers = true
 
 # Whether this backend server should receive login messages forwarded from other Velocity servers
 # Server overridable
-receive_player_join_from_other_servers = false
+receive_player_join_from_other_servers = true
 
 # Whether this backend server should receive logout messages forwarded from other Velocity servers
 # Server overridable
-receive_player_leave_from_other_servers = false
+receive_player_leave_from_other_servers = true
+
+# Whether this backend server should receive server switch messages forwarded from other Velocity servers
+# Server overridable
+receive_player_server_switch_from_other_servers = true
 
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#7289da"

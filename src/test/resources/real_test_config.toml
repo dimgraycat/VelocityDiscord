@@ -274,6 +274,10 @@ attachments = "<dark_gray><click:open_url:{url}>[<{attachment_color}>Attachment<
 # Can be disabled
 links = "<click:open_url:\"{url}\"><hover:show_text:\"{url}\"><dark_gray>[</dark_gray><{link_color}>Link<dark_gray>]</hover></click>"
 
+player_join = "<green>{username}</green>"
+player_leave = "<red>{username}</red>"
+player_server_switch = "<yellow>{username} {previous_server} -> {server}</yellow>"
+
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#7289da"
 attachment_color = "#4abdff"
@@ -318,5 +322,9 @@ channel = "0000000000000000000"
 
 [override.server_b.minecraft]
 receive_player_chat_from_other_servers = false
-receive_player_join_from_other_servers = true
-receive_player_leave_from_other_servers = true
+receive_player_join_from_other_servers = false
+receive_player_leave_from_other_servers = false
+receive_player_server_switch_from_other_servers = false
+player_join = false
+player_leave = false
+player_server_switch = false

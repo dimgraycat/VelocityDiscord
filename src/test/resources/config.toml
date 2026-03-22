@@ -291,14 +291,21 @@ attachments = "attachments_test"
 # Can be disabled with "" or false
 links = "links_test"
 
+player_join = "player_join_test"
+player_leave = "player_leave_test"
+player_server_switch = "player_server_switch_test"
+
 # Whether this backend server should receive player chat forwarded from other Velocity servers
 receive_player_chat_from_other_servers = false
 
 # Whether this backend server should receive login messages forwarded from other Velocity servers
-receive_player_join_from_other_servers = true
+receive_player_join_from_other_servers = false
 
 # Whether this backend server should receive logout messages forwarded from other Velocity servers
-receive_player_leave_from_other_servers = true
+receive_player_leave_from_other_servers = false
+
+# Whether this backend server should receive server switch messages forwarded from other Velocity servers
+receive_player_server_switch_from_other_servers = false
 
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#ff00ff"

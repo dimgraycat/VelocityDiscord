@@ -28,9 +28,22 @@ public class MinecraftConfig {
   public Optional<String> linkFormat = Optional.of("""
     <click:open_url:"{url}"><hover:show_text:"Click to open {url}"><dark_gray>[</dark_gray><{link_color}>Link<dark_gray>]</hover></click>""");
 
+  /// Placeholders available: `server`, `current_server`, `username`
+  public Optional<String> playerJoinFormat = Optional.of("""
+    <dark_gray>[<gray>{server}</gray>]<reset> <white>{username}</white><green> joined</green>""");
+
+  /// Placeholders available: `server`, `current_server`, `username`
+  public Optional<String> playerLeaveFormat = Optional.of("""
+    <dark_gray>[<gray>{server}</gray>]<reset> <white>{username}</white><red> left</red>""");
+
+  /// Placeholders available: `server`, `current_server`, `previous_server`, `username`
+  public Optional<String> playerServerSwitchFormat = Optional.of("""
+    <dark_gray>[<gray>{server}</gray>]<reset> <white>{username}</white><yellow> moved from {previous_server}</yellow>""");
+
   public boolean receivePlayerChatFromOtherServers = true;
-  public boolean receivePlayerJoinFromOtherServers = false;
-  public boolean receivePlayerLeaveFromOtherServers = false;
+  public boolean receivePlayerJoinFromOtherServers = true;
+  public boolean receivePlayerLeaveFromOtherServers = true;
+  public boolean receivePlayerServerSwitchFromOtherServers = true;
 
   public String discordColor = "#7289da";
   public String attachmentColor = "#4abdff";
@@ -46,12 +59,21 @@ public class MinecraftConfig {
     this.messageFormat = config.getOrDefault("message", this.messageFormat);
     this.attachmentFormat = config.getOrDefault("attachments", this.attachmentFormat);
     this.linkFormat = config.getDisableableStringOrDefault("links", this.linkFormat);
+    this.playerJoinFormat = config.getDisableableStringOrDefault("player_join", this.playerJoinFormat);
+    this.playerLeaveFormat = config.getDisableableStringOrDefault("player_leave", this.playerLeaveFormat);
+    this.playerServerSwitchFormat =
+      config.getDisableableStringOrDefault("player_server_switch", this.playerServerSwitchFormat);
     this.receivePlayerChatFromOtherServers =
       config.getOrDefault("receive_player_chat_from_other_servers", this.receivePlayerChatFromOtherServers);
     this.receivePlayerJoinFromOtherServers =
       config.getOrDefault("receive_player_join_from_other_servers", this.receivePlayerJoinFromOtherServers);
     this.receivePlayerLeaveFromOtherServers =
       config.getOrDefault("receive_player_leave_from_other_servers", this.receivePlayerLeaveFromOtherServers);
+    this.receivePlayerServerSwitchFromOtherServers =
+      config.getOrDefault(
+        "receive_player_server_switch_from_other_servers",
+        this.receivePlayerServerSwitchFromOtherServers
+      );
 
     this.discordColor = config.getOrDefault("discord_color", this.discordColor);
     this.attachmentColor = config.getOrDefault("attachment_color", this.attachmentColor);
