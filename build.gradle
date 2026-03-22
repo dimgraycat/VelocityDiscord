@@ -5,6 +5,10 @@ plugins {
 
 version = project.version
 
+tasks.withType(JavaCompile).configureEach {
+  options.release = 21
+}
+
 configurations {
   shade
 }

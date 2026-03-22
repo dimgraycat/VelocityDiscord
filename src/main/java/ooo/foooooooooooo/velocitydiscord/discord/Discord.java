@@ -282,6 +282,7 @@ public class Discord extends ListenerAdapter {
 
     var message = new StringTemplate(serverDiscordConfig.disconnect.format.get())
       .add("username", username)
+      .add("server", VelocityDiscord.CONFIG.serverName(server))
       .add("prefix", prefix.orElse(""))
       .toString();
 
@@ -322,6 +323,7 @@ public class Discord extends ListenerAdapter {
 
     var message = new StringTemplate(serverDiscordConfig.death.format.get())
       .add("username", username)
+      .add("server", VelocityDiscord.CONFIG.serverName(server))
       .add("displayname", displayName)
       .add("death_message", death)
       .toString();
@@ -348,6 +350,7 @@ public class Discord extends ListenerAdapter {
 
     var message = new StringTemplate(serverDiscordConfig.advancement.format.get())
       .add("username", username)
+      .add("server", VelocityDiscord.CONFIG.serverName(server))
       .add("displayname", displayname)
       .add("advancement_title", title)
       .add("advancement_description", description)

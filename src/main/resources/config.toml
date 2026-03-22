@@ -155,7 +155,7 @@ embed_color = "#bf4040"
 
 [discord.chat.disconnect]
 # Possible different format for timeouts or other terminating connections
-# Placeholders available: {username}, {prefix}
+# Placeholders available: {username}, {prefix}, {server}
 # Can be disabled with "" or false
 format = "**{username} disconnected**"
 type = "text"
@@ -171,7 +171,7 @@ type = "text"
 embed_color = "#40bf4f"
 
 [discord.chat.death]
-# Placeholders available: {username}, {death_message}
+# Placeholders available: {username}, {death_message}, {server}
 # death_message includes the username just as it is shown ingame
 # Can be disabled with "" or false
 format = "**{death_message}**"
@@ -180,7 +180,7 @@ type = "text"
 embed_color = "#bf4040"
 
 [discord.chat.advancement]
-# Placeholders available: {username}, {advancement_title}, {advancement_description}
+# Placeholders available: {username}, {advancement_title}, {advancement_description}, {server}
 # Can be disabled with "" or false
 format = "**{username} has made the advancement __{advancement_title}__**\n_{advancement_description}_"
 type = "text"
@@ -265,6 +265,18 @@ attachments = "<dark_gray><click:open_url:{url}>[<{attachment_color}>Attachment<
 # Placeholders available: {url}, {link_color}
 # Can be disabled with "" or false
 links = "<click:open_url:\"{url}\"><hover:show_text:\"Click to open {url}\"><dark_gray>[</dark_gray><{link_color}>Link<dark_gray>]</hover></click>"
+
+# Whether this backend server should receive player chat forwarded from other Velocity servers
+# Server overridable
+receive_player_chat_from_other_servers = true
+
+# Whether this backend server should receive login messages forwarded from other Velocity servers
+# Server overridable
+receive_player_join_from_other_servers = false
+
+# Whether this backend server should receive logout messages forwarded from other Velocity servers
+# Server overridable
+receive_player_leave_from_other_servers = false
 
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#7289da"

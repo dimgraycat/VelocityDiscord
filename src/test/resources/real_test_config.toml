@@ -160,7 +160,7 @@ channel = "0000000000000000000"
 
 [discord.chat.disconnect]
 # Possible different format for timeouts or other terminating connections
-# Placeholders available: {username}, {prefix}
+# Placeholders available: {username}, {prefix}, {server}
 # Can be disabled
 format = "**{username} disconnected**"
 type = "webhook"
@@ -178,7 +178,7 @@ embed_color = "#40bf4f"
 channel = "0000000000000000000"
 
 [discord.chat.death]
-# Placeholders available: {username}, {death_message}
+# Placeholders available: {username}, {death_message}, {server}
 # death_message includes the username just as it is shown ingame
 # Can be disabled
 format = "**{death_message}**"
@@ -188,7 +188,7 @@ embed_color = "#bf4040"
 channel = "0000000000000000000"
 
 [discord.chat.advancement]
-# Placeholders available: {username}, {advancement_title}, {advancement_description}
+# Placeholders available: {username}, {advancement_title}, {advancement_description}, {server}
 # Can be disabled
 format = "**{username} has made the advancement __{advancement_title}__**\n_{advancement_description}_"
 type = "webhook"
@@ -315,3 +315,8 @@ channel = "0000000000000000000"
 
 [override.server_b.discord.chat.death]
 # channel = "0000000000000000000"
+
+[override.server_b.minecraft]
+receive_player_chat_from_other_servers = false
+receive_player_join_from_other_servers = true
+receive_player_leave_from_other_servers = true

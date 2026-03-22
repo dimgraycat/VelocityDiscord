@@ -8,6 +8,9 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import ooo.foooooooooooo.velocitydiscord.config.definitions.MinecraftConfig;
 import ooo.foooooooooooo.velocitydiscord.discord.Discord;
 
 import java.util.HashMap;
@@ -15,6 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 public class VelocityListener {
   private final Discord discord;
@@ -46,6 +50,7 @@ public class VelocityListener {
 
     var prefix = getPrefix(uuid);
 
+    forwardPlayerChatToServers(username, server, event.getMessage());
     this.discord.onPlayerChat(username, uuid.toString(), prefix, server, event.getMessage());
   }
 
@@ -73,6 +78,7 @@ public class VelocityListener {
     if (previousServer.isPresent() && !VelocityDiscord.CONFIG.serverDisabled(previousName)) {
       this.discord.onServerSwitch(username, uuid.toString(), prefix, server, previousName);
     } else {
+      forwardPlayerJoinToServers(username, server);
       this.discord.onJoin(event.getPlayer(), prefix, server);
     }
   }
@@ -98,6 +104,7 @@ public class VelocityListener {
 
       setServerOnline(name);
 
+      forwardPlayerLeaveToServers(username, name);
       this.discord.onLeave(username, uuid.toString(), prefix, name);
     }
   }
@@ -140,6 +147,91 @@ public class VelocityListener {
     }
 
     return Optional.empty();
+  }
+
+  private void forwardPlayerChatToServers(String username, String sourceServer, String message) {
+    forwardMessageToServers(
+      sourceServer,
+      createPlayerChatMessage(username, sourceServer, message),
+      config -> config.receivePlayerChatFromOtherServers
+    );
+  }
+
+  private void forwardPlayerJoinToServers(String username, String sourceServer) {
+    forwardMessageToServers(
+      sourceServer,
+      createPlayerJoinMessage(username, sourceServer),
+      config -> config.receivePlayerJoinFromOtherServers
+    );
+  }
+
+  private void forwardPlayerLeaveToServers(String username, String sourceServer) {
+    forwardMessageToServers(
+      sourceServer,
+      createPlayerLeaveMessage(username, sourceServer),
+      config -> config.receivePlayerLeaveFromOtherServers
+    );
+  }
+
+  /**
+   * Forward proxy-originated messages only to other backend audiences.
+   * These do not re-enter Velocity events, so this stays one-way.
+   */
+  private void forwardMessageToServers(String sourceServer, Component formattedMessage, Predicate<MinecraftConfig> shouldReceive) {
+    for (var targetServer : VelocityDiscord.SERVER.getAllServers()) {
+      var targetName = targetServer.getServerInfo().getName();
+
+      if (targetName.equals(sourceServer)) {
+        continue;
+      }
+
+      if (!VelocityDiscord.CONFIG.global.excludedServersReceiveMessages &&
+          VelocityDiscord.CONFIG.serverDisabled(targetName)) {
+        continue;
+      }
+
+      if (!shouldReceive.test(VelocityDiscord.CONFIG.getServerConfig(targetName).getMinecraftConfig())) {
+        continue;
+      }
+
+      targetServer.sendMessage(formattedMessage);
+    }
+  }
+
+  private Component createPlayerChatMessage(String username, String sourceServer, String message) {
+    return Component
+      .text()
+      .append(Component.text("[", NamedTextColor.DARK_GRAY))
+      .append(Component.text(VelocityDiscord.CONFIG.serverName(sourceServer), NamedTextColor.GRAY))
+      .append(Component.text("] ", NamedTextColor.DARK_GRAY))
+      .append(Component.text("<", NamedTextColor.WHITE))
+      .append(Component.text(username, NamedTextColor.WHITE))
+      .append(Component.text(">", NamedTextColor.WHITE))
+      .append(Component.text(" ", NamedTextColor.WHITE))
+      .append(Component.text(message, NamedTextColor.WHITE))
+      .build();
+  }
+
+  private Component createPlayerJoinMessage(String username, String sourceServer) {
+    return Component
+      .text()
+      .append(Component.text("[", NamedTextColor.DARK_GRAY))
+      .append(Component.text(VelocityDiscord.CONFIG.serverName(sourceServer), NamedTextColor.GRAY))
+      .append(Component.text("] ", NamedTextColor.DARK_GRAY))
+      .append(Component.text(username, NamedTextColor.WHITE))
+      .append(Component.text(" joined", NamedTextColor.GREEN))
+      .build();
+  }
+
+  private Component createPlayerLeaveMessage(String username, String sourceServer) {
+    return Component
+      .text()
+      .append(Component.text("[", NamedTextColor.DARK_GRAY))
+      .append(Component.text(VelocityDiscord.CONFIG.serverName(sourceServer), NamedTextColor.GRAY))
+      .append(Component.text("] ", NamedTextColor.DARK_GRAY))
+      .append(Component.text(username, NamedTextColor.WHITE))
+      .append(Component.text(" left", NamedTextColor.RED))
+      .build();
   }
 
   /**

@@ -164,7 +164,7 @@ avatar_url = "leave_webhook_avatar_url_test"
 
 [discord.chat.disconnect]
 # Possible different format for timeouts or other terminating connections
-# Placeholders available: {username}, {prefix}
+# Placeholders available: {username}, {prefix}, {server}
 # Can be disabled with "" or false
 format = "format_test"
 type = "embed"
@@ -188,7 +188,7 @@ username = "server_switch_webhook_username_test"
 avatar_url = "server_switch_webhook_avatar_url_test"
 
 [discord.chat.death]
-# Placeholders available: {username}, {death_message}
+# Placeholders available: {username}, {death_message}, {server}
 # death_message includes the username just as it is shown ingame
 # Can be disabled with "" or false
 format = "format_test"
@@ -201,7 +201,7 @@ username = "death_webhook_username_test"
 avatar_url = "death_webhook_avatar_url_test"
 
 [discord.chat.advancement]
-# Placeholders available: {username}, {advancement_title}, {advancement_description}
+# Placeholders available: {username}, {advancement_title}, {advancement_description}, {server}
 # Can be disabled with "" or false
 format = "format_test"
 type = "embed"
@@ -290,6 +290,15 @@ attachments = "attachments_test"
 # Placeholders available: {url}, {link_color}
 # Can be disabled with "" or false
 links = "links_test"
+
+# Whether this backend server should receive player chat forwarded from other Velocity servers
+receive_player_chat_from_other_servers = false
+
+# Whether this backend server should receive login messages forwarded from other Velocity servers
+receive_player_join_from_other_servers = true
+
+# Whether this backend server should receive logout messages forwarded from other Velocity servers
+receive_player_leave_from_other_servers = true
 
 # Colors for the <{discord_color}>, <{attachment_color}> and <{link_color}> tags
 discord_color = "#ff00ff"
